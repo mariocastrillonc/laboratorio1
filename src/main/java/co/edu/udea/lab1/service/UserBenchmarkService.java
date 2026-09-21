@@ -47,8 +47,9 @@ public class UserBenchmarkService {
     }
 
     public int bulkLoadUsers(int count) {
-        String[] nombresEjemplo = {"Juan", "María", "Carlos", "Ana", "Luis", "Sofía", "Diego", "Valeria", "Andrés", "Camila", "Mateo", "Isabella", "Gabriel", "Lucía"};
-        String[] apellidosEjemplo = {"Pérez", "Gómez", "Rodríguez", "López", "Martínez", "García", "Torres", "Vargas", "Ríos", "Silva", "Mendoza", "Castillo"};
+        // Usar nombres limpios sin tildes para evitar problemas de codificación según la consola del SO
+        String[] nombresEjemplo = {"Juan", "Maria", "Carlos", "Ana", "Luis", "Sofia", "Diego", "Valeria", "Andres", "Camila", "Mateo", "Isabella", "Gabriel", "Lucia"};
+        String[] apellidosEjemplo = {"Perez", "Gomez", "Rodriguez", "Lopez", "Martinez", "Garcia", "Torres", "Vargas", "Rios", "Silva", "Mendoza", "Castillo"};
         String[] dominios = {"gmail.com", "udea.edu.co", "yahoo.com", "outlook.com", "hotmail.com"};
 
         int added = 0;
@@ -64,8 +65,7 @@ public class UserBenchmarkService {
             }
 
             String nombre = nombresEjemplo[random.nextInt(nombresEjemplo.length)] + " " + apellidosEjemplo[random.nextInt(apellidosEjemplo.length)];
-            String email = nombre.toLowerCase().replace(" ", ".").replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u") 
-                    + random.nextInt(999) + "@" + dominios[random.nextInt(dominios.length)];
+            String email = nombre.toLowerCase().replace(" ", ".") + random.nextInt(999) + "@" + dominios[random.nextInt(dominios.length)];
 
             User user = new User(cc, nombre, email);
             extendibleHashTable.insert(user);
