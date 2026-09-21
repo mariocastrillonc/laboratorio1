@@ -22,7 +22,7 @@ public class UserBenchmarkService {
 
     public synchronized void registerUser(User user) {
         if (extendibleHashTable.contains(user.getCedula())) {
-            throw new IllegalArgumentException("Cédula duplicada: La cédula '" + user.getCedula() + "' ya existe en el sistema.");
+            throw new IllegalArgumentException("La cédula '" + user.getCedula() + "' ya existe en el sistema.");
         }
         extendibleHashTable.insert(user);
         sequentialStorage.insert(user);
@@ -31,13 +31,11 @@ public class UserBenchmarkService {
     public UserBenchmarkResult searchUserWithBenchmark(String cedula) {
         String key = cedula.trim();
 
-        // 1. Cronometrar Extendible Hashing (Dynamic Hash Table)
         long startHash = System.nanoTime();
         User hashUser = extendibleHashTable.search(key);
         long endHash = System.nanoTime();
         long hashTimeNano = endHash - startHash;
 
-        // 2. Cronometrar Búsqueda Secuencial (Linear Scan)
         long startSeq = System.nanoTime();
         User seqUser = sequentialStorage.search(key);
         long endSeq = System.nanoTime();
@@ -47,7 +45,6 @@ public class UserBenchmarkService {
     }
 
     public int bulkLoadUsers(int count) {
-        // Usar nombres limpios sin tildes para evitar problemas de codificación según la consola del SO
         String[] nombresEjemplo = {"Juan", "Maria", "Carlos", "Ana", "Luis", "Sofia", "Diego", "Valeria", "Andres", "Camila", "Mateo", "Isabella", "Gabriel", "Lucia"};
         String[] apellidosEjemplo = {"Perez", "Gomez", "Rodriguez", "Lopez", "Martinez", "Garcia", "Torres", "Vargas", "Rios", "Silva", "Mendoza", "Castillo"};
         String[] dominios = {"gmail.com", "udea.edu.co", "yahoo.com", "outlook.com", "hotmail.com"};

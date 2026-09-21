@@ -6,6 +6,7 @@ import co.edu.udea.lab1.service.UserBenchmarkService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 @Component
@@ -19,7 +20,7 @@ public class ConsoleRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
         boolean exit = false;
 
         System.out.println("\n======================================================================");

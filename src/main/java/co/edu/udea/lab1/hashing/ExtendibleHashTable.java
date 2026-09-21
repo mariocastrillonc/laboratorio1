@@ -31,7 +31,7 @@ public class ExtendibleHashTable {
     }
 
     public ExtendibleHashTable() {
-        this(1, 4); // Default: Profundidad Global 1 (2 entradas en directorio), Capacidad 4
+        this(1, 4);
     }
 
     public int getGlobalDepth() {
@@ -89,7 +89,7 @@ public class ExtendibleHashTable {
 
     public synchronized void insert(User user) {
         if (contains(user.getCedula())) {
-            throw new IllegalArgumentException("Cédula duplicada: La cédula '" + user.getCedula() + "' ya existe en el sistema.");
+            throw new IllegalArgumentException("La cédula '" + user.getCedula() + "' ya existe en el sistema.");
         }
         insertInternal(user);
         totalElements++;
@@ -104,15 +104,11 @@ public class ExtendibleHashTable {
             return;
         }
 
-        // Si el bucket está lleno y su profundidad local es igual a la profundidad global, duplicar el directorio
         if (target.getLocalDepth() == globalDepth) {
             doubleDirectory();
         }
 
-        // Dividir el bucket en desbordamiento
         splitBucket(index, target);
-
-        // Reintentar la inserción
         insertInternal(user);
     }
 
@@ -131,7 +127,6 @@ public class ExtendibleHashTable {
 
         Bucket newBucket = new Bucket(nextBucketId++, newLocalDepth, bucketCapacity);
 
-        // Actualizar apuntadores en el directorio
         for (int i = 0; i < directory.size(); i++) {
             if (directory.get(i) == target) {
                 if (((i >> oldLocalDepth) & 1) == 1) {
@@ -140,7 +135,6 @@ public class ExtendibleHashTable {
             }
         }
 
-        // Redistribuir registros existentes en el bucket que sufrió desbordamiento
         List<User> tempRecords = new ArrayList<>(target.getRecords());
         target.clear();
 
