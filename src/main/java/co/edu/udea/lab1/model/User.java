@@ -1,8 +1,11 @@
 package co.edu.udea.lab1.model;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class User {
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+
     private final String cedula;
     private final String nombre;
     private final String email;
@@ -17,9 +20,13 @@ public class User {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("El correo no puede estar vacío.");
         }
+        String trimmedEmail = email.trim();
+        if (!EMAIL_PATTERN.matcher(trimmedEmail).matches()) {
+            throw new IllegalArgumentException("El correo no tiene un formato válido (ejemplo: usuario@correo.com).");
+        }
         this.cedula = cedula.trim();
         this.nombre = nombre.trim();
-        this.email = email.trim();
+        this.email = trimmedEmail;
     }
 
     public String getCedula() {
